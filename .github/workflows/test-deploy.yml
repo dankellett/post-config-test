@@ -39,9 +39,9 @@ jobs:
           # Request Method
           method: 'POST'
           # Content Type
-          headers: 'Content-Type: application/json'
+          customHeaders: '{"Content-Type": "application/json"}'
           #payload
-          data: ${{ steps.read-json.outputs.json_content }}
+          data: '${{ steps.read-json.outputs.json_content }}'
           
         
 
