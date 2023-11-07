@@ -25,10 +25,9 @@ jobs:
       - name: Read JSON file
         id: read-json
         run: |
-          # Assuming your JSON file is named data.json
-          JSON_CONTENT=$(cat config1.json)
-          echo JSON_CONTENT
-          echo "::set-output name=json_content::$JSON_CONTENT"
+          echo 'CONFIG_JSON<<EOF' >> $GITHUB_ENV
+          cat ./config1.json >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
         
       - name: HTTP Request Action
         # You may pin to the exact commit or the version.
@@ -42,7 +41,7 @@ jobs:
           # Content Type
           customHeaders: '{"Content-Type": "application/json"}'
           #payload
-          data: '${{ steps.read-json.outputs.json_content }}'
+          data: '${{ env.CONFIG_JSON }}'
           
         
 
