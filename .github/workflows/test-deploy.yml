@@ -13,7 +13,7 @@ on: workflow_dispatch
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  post-json:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -22,23 +22,26 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Read JSON file
+        id: read-json
+        run: |
+          # Assuming your JSON file is named data.json
+          JSON_CONTENT=$(cat config1.json)
+          echo "::set-output name=json_content::$JSON_CONTENT"
         
       - name: HTTP Request Action
         # You may pin to the exact commit or the version.
         # uses: fjogeleit/http-request-action@eab8015483ccea148feff7b1c65f320805ddc2bf
-        uses: fjogeleit/http-request-action@v1.14.1
+        uses: actions/http-request@v1
         with:
           # Request URL
           url: 'https://ptsv3.com/t/JHF48JRH3/post/json/'
           # Request Method
           method: 'POST'
           # Content Type
-          contentType: 'application/json'
+          headers: 'Content-Type: application/json'
           #payload
-          data: '{ "what":"isthis" }'
+          data: ${{ steps.read-json.outputs.json_content }}
           
         
 
