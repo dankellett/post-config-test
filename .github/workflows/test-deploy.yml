@@ -27,6 +27,7 @@ jobs:
         run: |
           # Assuming your JSON file is named data.json
           JSON_CONTENT=$(cat config1.json)
+          echo JSON_CONTENT
           echo "::set-output name=json_content::$JSON_CONTENT"
         
       - name: HTTP Request Action
