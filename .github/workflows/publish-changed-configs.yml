@@ -58,7 +58,6 @@ jobs:
           echo 'CONFIG_JSON<<EOF' >> $GITHUB_ENV
           cat ${{ matrix.files }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-          echo 'CONFIG_DOC_ID<<EOF' >> $GITHUB_ENV
 
       - run: |
           echo '${{ fromJson(env.CONFIG_JSON).configDocId }}'
