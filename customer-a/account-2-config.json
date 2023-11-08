@@ -1,5 +1,5 @@
 {
   "key1":"value4",
-  "key2":"value9",
+  "key2":"value5",
   "key3":"${SECRET1}"
 }
