@@ -27,7 +27,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v40
         with:
-          files: '/**/*config.json'
+          # files: '/**/*config.json'
           json: true
           quotepath: false
 
