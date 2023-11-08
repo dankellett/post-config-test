@@ -59,7 +59,7 @@ jobs:
           cat ${{ matrix.files }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
           echo 'CONFIG_FILE_ID<<EOF' >> $GITHUB_ENV
-          cat ${{ toJSON(matrix.files).configDocId }} >> $GITHUB_ENV
+          cat ${{ toJSON(env.CONFIG_JSON).configDocId }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
           echo CONFIG_FILE_ID
         
