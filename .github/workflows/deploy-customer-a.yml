@@ -21,12 +21,11 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Get changed files
         id: changed-files
-        uses: ./
+        uses: tj-actions/changed-files@v40
         with:
           files: '**config.json'
           json: true
