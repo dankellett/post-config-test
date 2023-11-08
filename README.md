@@ -1,5 +1,5 @@
 # post-config-test
-This Repo demonstrates a crude method to version config files that are published to an API endpoint.
+This Repo demonstrates a crude method to version control config files that are published to an API endpoint.
 
 Pushed changes to json files in [`main`, `dev`] branches will trigger the workflows to run and publish changes to endpoints defined in action files for specific branches.
 
