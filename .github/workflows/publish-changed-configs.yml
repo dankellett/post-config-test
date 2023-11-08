@@ -58,11 +58,11 @@ jobs:
           echo 'CONFIG_JSON<<EOF' >> $GITHUB_ENV
           cat ${{ matrix.files }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-          echo 'CONFIG_FILE_ID<<EOF' >> $GITHUB_ENV
-          cat ${{ toJSON(env.CONFIG_JSON).configDocId }} >> $GITHUB_ENV
+          echo 'CONFIG_DOC_ID<<EOF' >> $GITHUB_ENV
+          cat ${{ fromJSON(env.CONFIG_JSON).configDocId }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
           echo '${{ env.CONFIG_JSON }}'
-          echo '${{ env.CONFIG_FILE_ID }}'
+          echo '${{ env.CONFIG_DOC_ID }}'
         
       - name: POST config file
         uses: fjogeleit/http-request-action@v1
