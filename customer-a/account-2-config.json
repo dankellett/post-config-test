@@ -1,5 +1,5 @@
 {
-  "configDocId": "SOMEBIGID2",
+  "configDocId": "SOMEBIGID55",
   "key1":"value4",
   "key2":"value5",
   "key3":"${SECRET1}"

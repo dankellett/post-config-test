@@ -52,12 +52,16 @@ jobs:
           tokenPattern: ${TOKEN}
           secretsJson: ${{ toJSON(secrets) }}
 
-      - name: Read JSON file
+      - name: Read JSON file into ENV
         id: read-json
         run: |
           echo 'CONFIG_JSON<<EOF' >> $GITHUB_ENV
           cat ${{ matrix.files }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
+          echo 'CONFIG_FILE_ID<<EOF' >> $GITHUB_ENV
+          cat ${{ toJSON(matrix.files).configDocId }} >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+          echo CONFIG_FILE_ID
         
       - name: POST config file
         uses: fjogeleit/http-request-action@v1
