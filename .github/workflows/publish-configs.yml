@@ -1,9 +1,10 @@
 name: Publish Config Updates
 on:  
-  push:
-   branches: [ "main" ]
-  pull_request:
-   branches: [ "main" ]
+  workflow_call:
+    inputs:
+      publish-url:
+        type: string
+        default: "https://localhost"
 
 jobs:
   changed-files:
@@ -32,7 +33,7 @@ jobs:
         run: echo "matrix={\"files\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
   
   matrix-job:
-    name: Run Matrix Job
+    name: POST each updated config
     runs-on: ubuntu-latest
     needs: [changed-files]
     strategy:
@@ -58,14 +59,11 @@ jobs:
           echo 'CONFIG_JSON<<EOF' >> $GITHUB_ENV
           cat ${{ matrix.files }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-
-      - run: |
-          echo '${{ fromJson(env.CONFIG_JSON).configDocId }}'
         
       - name: POST config file
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'https://webhook.site/c33c6f62-9347-46d2-8e88-218eeeee7464'
+          url: '${{ inputs.publish-url }}'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json", "config-doc-id":"${{ fromJson(env.CONFIG_JSON).configDocId }}"}'
           data: '${{ env.CONFIG_JSON }}'
