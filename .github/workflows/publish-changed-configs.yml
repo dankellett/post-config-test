@@ -61,7 +61,7 @@ jobs:
           echo 'CONFIG_FILE_ID<<EOF' >> $GITHUB_ENV
           cat ${{ toJSON(env.CONFIG_JSON).configDocId }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-          echo CONFIG_FILE_ID
+          echo '${{ env.CONFIG_FILE_ID }}'
         
       - name: POST config file
         uses: fjogeleit/http-request-action@v1
