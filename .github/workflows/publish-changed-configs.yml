@@ -67,7 +67,7 @@ jobs:
         with:
           url: 'https://webhook.site/c33c6f62-9347-46d2-8e88-218eeeee7464'
           method: 'POST'
-          customHeaders: '{"Content-Type": "application/json"}'
+          customHeaders: '{"Content-Type": "application/json", "config-doc-id":"${{ fromJson(env.CONFIG_JSON).configDocId }}"}'
           data: '${{ env.CONFIG_JSON }}'
           
         
