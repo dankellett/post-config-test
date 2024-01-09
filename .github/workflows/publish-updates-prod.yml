@@ -4,7 +4,7 @@ on:
         branches: 
             - main
         paths:
-            - '**/*.prod.config.json'
+            - '**.prod.config.json'
 jobs:
     publish-deploy:
         permissions:
