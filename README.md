@@ -1,8 +1,8 @@
 # post-config-test
 This Repo demonstrates a crude method to version control config files that are published to an API endpoint.
 
-Pushed changes to json files in [`main`, `dev`] branches will trigger the workflows to run and publish changes to endpoints defined in action files for specific branches.
+Pushed changes to `*.staging.config.json` or `*.prod.config.json` json files in `main` branch will trigger the appropriate workflow to run and publish changes to endpoints defined in action files for staging or prod based on path filters.
 
-Using PR flow, configs can be made in the lower `dev` branch to be published to a lower environment and when ready, a PR and push to `main` would publish the changes to production.
+Using PR flow, configs can be made in the lower `dev` branch for review, and a PR and push to `main` would publish the changes.
 
-If configs are different between environments, one might setup seperate files and use naming convention to trigger/filter the correct actions to run as an alternate strategy.
+Another trigger strategy is to trigger off long lived branches that represent each environment. This works well when configs aren't different between environments. 
