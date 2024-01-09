@@ -1,7 +1,10 @@
 name: Publish Prod Updates
 on:
     push:
-        branches: [dev]
+        branches: 
+            - main
+        paths:
+            - '/**/*staging.config.json'
 jobs:
     publish-deploy:
         permissions:
