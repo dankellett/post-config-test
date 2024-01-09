@@ -1,0 +1,24 @@
+name: Publish Prod Config Updates
+on:
+    push:
+        branches: 
+            - main
+        paths:
+            - '**.prod.config.json'
+jobs:
+    publish-configs:
+        permissions:
+            contents: write
+            pull-requests: write
+            checks: write
+            actions: read
+            id-token: write
+            packages: write
+        runs-on: ubuntu-latest
+        steps:
+            - uses: ./.github/workflows/publish-configs.yml
+              with:
+                publish-url: 'https://webhook.site/c33c6f62-9347-46d2-8e88-218eeeee7464'
+              secrets: 
+                MY-secret: 'test'
+
