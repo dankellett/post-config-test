@@ -1,6 +1,6 @@
 {
   "configDocId": "46256546546",
-  "key1":"value4dd",
+  "key1":"valued",
   "key2":"value5",
   "key3":"${SECRET1}"
 }
