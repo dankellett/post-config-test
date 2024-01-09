@@ -27,8 +27,9 @@ jobs:
             id-token: write
             packages: write
         uses: ./.github/workflows/publish-configs.yml
-        secrets:
+        secrets: 
             MY-SECRET: $SECRET
+            
         with:
             publish-url: 'https://webhook.site/c33c6f62-9347-46d2-8e88-218eeeee7464'
 

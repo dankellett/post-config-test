@@ -9,6 +9,9 @@ on:
       MY-SECRET:
         required: false
         description: "a parameter that is a secret"
+      SECRET1:
+          required: false
+          description: "a parameter that is a secret"
 
 jobs:
   changed-files:
