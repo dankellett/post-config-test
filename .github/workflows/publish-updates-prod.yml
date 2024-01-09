@@ -1,4 +1,4 @@
-name: Publish Prod Updates
+name: Publish Prod Config Updates
 on:
     push:
         branches: 
