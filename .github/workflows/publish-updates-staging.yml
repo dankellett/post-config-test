@@ -1,4 +1,4 @@
-name: Publish Prod Updates
+name: Publish Staging Config Updates
 on:
     push:
         branches: 
