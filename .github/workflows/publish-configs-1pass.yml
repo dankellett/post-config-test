@@ -68,7 +68,7 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          SECRET: op://hello-world/secret/credential
+          SECRET: op://${TENANT_NAME}/secret/credential
 
       - name: Substitute Secrets
         uses: Lambdaspire/action-substitute-secrets-in-file@v1.0.0
