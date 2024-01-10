@@ -54,12 +54,10 @@ jobs:
 
       - name: Get tenant name from file
         run: |
-          FILENAME="${{ matrix.files }}"
-          FIRST_PART=${FILENAME%%.*}
-          echo filename="${{ matrix.files }}"
-          echo first_part is= ${FILENAME%%.*}
-          echo "FIRST_PART=$FIRST_PART" >> $GITHUB_ENV
-          
+          PATH="${{ matrix.files }}"
+          TENANT_NAME=$(echo $PATH | cut -d'/' -f1)
+          echo TENANT_NAME is $TENANT_NAME
+          echo "TENANT_NAME=$TENANT_NAME" >> $GITHUB_ENV
 
       - name: Load secret
         uses: 1password/load-secrets-action@v1
