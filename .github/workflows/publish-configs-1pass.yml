@@ -60,12 +60,14 @@ jobs:
       - name: Load secret
         uses: 1password/load-secrets-action@v1
         with:
-        # Export loaded secrets as environment variables
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           SECRET1: op://${{ inputs.vault-name }}/${{ env.TENANT_NAME }}/credential-2
       
+      # An alternate method to substitute secrets that requires more maintenance
+      # but uses native bash tool sed
+      #    
       # - name: Replace Tokens in JSON File
       #   run: |
       #     sed -i "s/\${SECRET1}/${SECRET}/g" ${{ matrix.files }}

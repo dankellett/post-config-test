@@ -6,7 +6,7 @@ on:
         paths:
             - '**.prod.config.json'
 jobs:
-    publish-deploy:
+    publish-configs:
         permissions:
             contents: write
             pull-requests: write
@@ -14,8 +14,9 @@ jobs:
             actions: read
             id-token: write
             packages: write
-        uses: ./.github/workflows/publish-configs.yml
+        uses: ./.github/workflows/publish-configs-1pass.yml
         secrets: inherit
         with:
-            publish-url: 'https://webhook.site/c33c6f62-9347-46d2-8e88-218eeeee7464'
+            publish-url: 'https://webhook.site/25f699df-9b11-4705-a1f0-c644b8cc2a6a'
+            vault-name: 'hello-world'
 

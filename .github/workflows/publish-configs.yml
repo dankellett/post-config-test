@@ -5,13 +5,6 @@ on:
       publish-url:
         type: string
         default: "https://localhost"
-    secrets:
-      MY-SECRET:
-        required: false
-        description: "a parameter that is a secret"
-      SECRET1:
-          required: false
-          description: "a parameter that is a secret"
 
 jobs:
   changed-files:
