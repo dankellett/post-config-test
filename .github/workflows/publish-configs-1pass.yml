@@ -64,11 +64,19 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          SECRET: op://${{ inputs.publish-url }}/${TENANT_NAME}/credential-2
+          SECRET: op://${{ inputs.publish-url }}/${{ env.TENANT_NAME }}/credential-2
       
       - name: Replace Tokens in JSON File
         run: |
           sed -i "s/\${SECRET1}/${SECRET}/g" ${{ matrix.files }}
+
+      - name: Substitute Secrets
+        uses: Lambdaspire/action-substitute-secrets-in-file@v1.0.0
+        with:
+          file: ${{ matrix.files }}
+          output: ${{ matrix.files }}
+          tokenPattern: ${TOKEN}
+          secretsJson: ${{ toJSON(env) }}
 
       - name: Read JSON file into ENV
         id: read-json
