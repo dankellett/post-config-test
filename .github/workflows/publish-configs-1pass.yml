@@ -55,7 +55,7 @@ jobs:
       - name: Get tenant name from file
         run: |
           PATH="${{ matrix.files }}"
-          TENANT_NAME=$(echo $PATH | cut -d'/' -f1)
+          TENANT_NAME=$(echo $PATH | awk -F'/' '{print $1}')
           echo TENANT_NAME is $TENANT_NAME
           echo "TENANT_NAME=$TENANT_NAME" >> $GITHUB_ENV
         shell: bash
