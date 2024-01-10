@@ -23,7 +23,7 @@ The following secrets are expected to be available to the workflow.
 | `OP_SERVICE_ACCOUNT_TOKEN` | credentials to a 1pass service account |
 | `PUBLISH_BEARER_TOKEN` | the bearer token required for auth to the `publish-url` endpoint |
 
-## 1password
+## Conventions and 1password
 Successful lookup of secrets requires a convention to be followed.
 
 1. Configs formatted as JSON and saved in folders at the root of this project i.e. configs are always 1-level deep.
