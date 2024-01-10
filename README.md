@@ -7,6 +7,8 @@ Using PR flow, configs can be made in the lower `dev` branch for review, and a P
 
 NOTE: An alternate trigger strategy is to trigger off long lived branches that represent each environment. This works well when configs aren't different between environments.
 
+![Diagram of config deployment automation](/automation-flow.png)
+
 ## Getting Started
 1. Create a folder with a name that matches a tenant name
 1. Create a 1pass vault and set config with the chosen name
