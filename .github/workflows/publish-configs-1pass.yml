@@ -64,7 +64,7 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          SECRET: op://${{ inputs.publish-url }}/${{ env.TENANT_NAME }}/credential-2
+          SECRET: op://${{ inputs.vault-name }}/${{ env.TENANT_NAME }}/credential-2
       
       - name: Replace Tokens in JSON File
         run: |
