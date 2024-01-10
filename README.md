@@ -7,6 +7,14 @@ Using PR flow, configs can be made in the lower `dev` branch for review, and a P
 
 Another trigger strategy is to trigger off long lived branches that represent each environment. This works well when configs aren't different between environments.
 
+## Getting Started
+1. Create a folder with a name that matches a tenant name
+1. Create a 1pass vault and set config with the chosen name
+1. Create an item in the 1pass vault and match the name with the folder created in an earlier step
+1. Set all tenant secrets within the single 1pass item by adding more password fields
+1. Obtain the service account token to the vault and store it as a secret `OP_SERVICE_ACCOUNT_TOKEN`
+1. Create a tokenized config file with a name that ends in either `.staging.config.json` or `.prod.config.json`
+
 ## Config
 Separate triggers are maintained to allow discrete variables to be set that differ between environments that are being posted to.
 
@@ -31,4 +39,5 @@ Successful lookup of secrets requires a convention to be followed.
 1. The vault name matches the variable set in `vault-name`
 1. The config token is added to the `Load Secrets` step as an env variable in the workflow file.
 1. The config files contain the variable using the following pattern `${TOKEN-NAME}`
+1. This project currently assumes that a the same 1pass service account token is used for all vaults in scope
 
