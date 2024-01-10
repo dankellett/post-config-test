@@ -5,7 +5,7 @@ Pushed changes to `*.staging.config.json` or `*.prod.config.json` json files in 
 
 Using PR flow, configs can be made in the lower `dev` branch for review, and a PR and push to `main` would publish the changes.
 
-Another trigger strategy is to trigger off long lived branches that represent each environment. This works well when configs aren't different between environments.
+NOTE: An alternate trigger strategy is to trigger off long lived branches that represent each environment. This works well when configs aren't different between environments.
 
 ## Getting Started
 1. Create a folder with a name that matches a tenant name
