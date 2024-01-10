@@ -58,6 +58,7 @@ jobs:
           TENANT_NAME=$(echo $PATH | cut -d'/' -f1)
           echo TENANT_NAME is $TENANT_NAME
           echo "TENANT_NAME=$TENANT_NAME" >> $GITHUB_ENV
+        shell: bash
 
       - name: Load secret
         uses: 1password/load-secrets-action@v1
