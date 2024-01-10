@@ -65,14 +65,13 @@ jobs:
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           SECRET: op://${{ inputs.publish-url }}/${TENANT_NAME}/credential-2
-
-      - name: Substitute Secrets
-        uses: Lambdaspire/action-substitute-secrets-in-file@v1.0.0
-        with:
-          file: ${{ matrix.files }}
-          output: ${{ matrix.files }}
-          tokenPattern: ${TOKEN}
-          secretsJson: ${{ toJSON(secrets) }}
+      
+      - name: Substitute Tokens
+        uses: microsoft/variable-substitution@v1
+        with: 
+          files: ${{ matrix.files }}
+        env:
+          SECRET1: $SECRET
 
       - name: Read JSON file into ENV
         id: read-json
