@@ -9,6 +9,16 @@ NOTE: An alternate trigger strategy is to trigger off long lived branches that r
 
 ![Diagram of config deployment automation](/automation-flow.png)
 
+## Why do this in GitHub?
+### Version control
+GitHub's version control/histroy has a rich feature set to track who made changes and browse history. This could also be coupled with Jira tickets to follow mature change management proceess.
+### Approval workflow support
+PRs/MRs and branch policies can enforce an approval workflow to help reduce errors and maintain better security controls.
+### Diff/compare functionality
+GitHub's diff tool experience is best in class and most teams already know how to use it well.
+### Automation capabitlites
+Actions and Workflows enable CI/CD automation to make the process repeatable and dependable.
+
 ## Getting Started
 1. Create a folder with a name that matches a tenant name
 1. Create a 1pass vault and set config with the chosen name
