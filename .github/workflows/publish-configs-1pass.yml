@@ -66,12 +66,9 @@ jobs:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           SECRET: op://${{ inputs.publish-url }}/${TENANT_NAME}/credential-2
       
-      - name: Substitute Tokens
-        uses: microsoft/variable-substitution@v1
-        with: 
-          files: ${{ matrix.files }}
-        env:
-          SECRET1: $SECRET
+      - name: Replace Tokens in JSON File
+        run: |
+          sed -i "s/\${SECRET1}/${SECRET}/g" ${{ matrix.files }}
 
       - name: Read JSON file into ENV
         id: read-json
