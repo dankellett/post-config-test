@@ -1,0 +1,98 @@
+name: Publish Config Updates
+on:  
+  workflow_call:
+    inputs:
+      publish-url:
+        type: string
+        default: "https://localhost"
+    secrets:
+      MY-SECRET:
+        required: false
+        description: "a parameter that is a secret"
+      SECRET1:
+          required: false
+          description: "a parameter that is a secret"
+
+jobs:
+  changed-files:
+    name: Get changed configs
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          files: |
+           **/*config.json
+          json: true
+          quotepath: false
+
+      - name: List all changed files
+        run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
+
+      - id: set-matrix
+        run: echo "matrix={\"files\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
+  
+  matrix-job:
+    name: POST each updated config
+    runs-on: ubuntu-latest
+    needs: [changed-files]
+    strategy:
+      matrix: ${{ fromJSON(needs.changed-files.outputs.matrix) }}
+      max-parallel: 4
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get tenant name from file
+        run: |
+          FILENAME="${{ matrix.files }}"
+          FIRST_PART=${FILENAME%%.*}
+          echo filename="${{ matrix.files }}"
+          echo first_part is= ${FILENAME%%.*}
+          echo "FIRST_PART=$FIRST_PART" >> $GITHUB_ENV
+          
+
+      - name: Load secret
+        uses: 1password/load-secrets-action@v1
+        with:
+        # Export loaded secrets as environment variables
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          SECRET: op://hello-world/secret/credential
+
+      - name: Substitute Secrets
+        uses: Lambdaspire/action-substitute-secrets-in-file@v1.0.0
+        with:
+          file: ${{ matrix.files }}
+          output: ${{ matrix.files }}
+          tokenPattern: ${TOKEN}
+          secretsJson: ${{ toJSON(secrets) }}
+
+      - name: Read JSON file into ENV
+        id: read-json
+        run: |
+          echo 'CONFIG_JSON<<EOF' >> $GITHUB_ENV
+          cat ${{ matrix.files }} >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+        
+      - name: POST config file
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: '${{ inputs.publish-url }}'
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json", "config-doc-id":"${{ fromJson(env.CONFIG_JSON).configDocId }}"}'
+          data: '${{ env.CONFIG_JSON }}'
+          
+        
+
+      
