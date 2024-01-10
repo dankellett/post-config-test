@@ -5,6 +5,9 @@ on:
       publish-url:
         type: string
         default: "https://localhost"
+      vault-name:
+        type: string
+        required: true
     secrets:
       MY-SECRET:
         required: false
@@ -68,7 +71,7 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          SECRET: op://${TENANT_NAME}/secret/credential
+          SECRET: op://${{ inputs.publish-url }}/${TENANT_NAME}/credential
 
       - name: Substitute Secrets
         uses: Lambdaspire/action-substitute-secrets-in-file@v1.0.0

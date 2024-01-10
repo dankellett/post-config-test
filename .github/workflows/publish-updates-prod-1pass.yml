@@ -6,18 +6,6 @@ on:
         paths:
             - '**.prod.config.json'
 jobs:
-    get-secrets:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Load secret
-              uses: 1password/load-secrets-action@v1
-              with:
-              # Export loaded secrets as environment variables
-                export-env: true
-              env:
-                OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-                SECRET: op://hello-world/secret/credential
-
     publish-configs:
         permissions:
             contents: write
@@ -32,4 +20,5 @@ jobs:
             SECRET1: $SECRET
         with:
             publish-url: 'https://webhook.site/c33c6f62-9347-46d2-8e88-218eeeee7464'
+            vault-name: 'hello-world'
 
